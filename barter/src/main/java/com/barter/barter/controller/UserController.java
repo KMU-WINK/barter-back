@@ -22,21 +22,13 @@ public class UserController {
     public UserController(UserService userService){this.userService = userService;}
 
     @PostMapping(value = "/signup")
-    public ResponseEntity postUser(@RequestPart(value = "user-data") UserPostDTO userPostDTO, @RequestPart(value = "file-data", required = false) MultipartFile image) throws IOException {
+    public ResponseEntity postUser(@RequestBody UserPostDTO userPostDTO) {
         String id = userPostDTO.getId();
         String password = userPostDTO.getPassword();
         String name = userPostDTO.getName();
         String nickname = userPostDTO.getNickname();
         if(userService.getUser(id) == null){
-            if(image == null){
-                return new ResponseEntity<UserDTO>(userService.postUser(id, name, password, nickname, image), HttpStatus.OK);
-            }else {
-                if (!Objects.requireNonNull(image.getContentType()).contains("image")) {
-                    return ResponseEntity.badRequest().build();
-                } else {
-                    return new ResponseEntity<UserDTO>(userService.postUser(id, name, password, nickname, image), HttpStatus.OK);
-                }
-            }
+            return new ResponseEntity<UserPostDTO>(userService.postUser(id, name, password, nickname), HttpStatus.OK);
         }else{
             return new ResponseEntity<ErrorDTO>(new ErrorDTO("DUPLICATE ID", "이미 있는 계정입니다."), HttpStatus.BAD_REQUEST);
         }
@@ -59,6 +51,15 @@ public class UserController {
             return ResponseEntity.ok().build();
         }catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping(value = "/image/{id}")
+    public ResponseEntity updateImage(@PathVariable String id, @RequestPart(value = "file-data") MultipartFile image) throws IOException {
+        if (!Objects.requireNonNull(image.getContentType()).contains("image")) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return new ResponseEntity<String>(userService.updateImage(id, image), HttpStatus.OK);
         }
     }
 

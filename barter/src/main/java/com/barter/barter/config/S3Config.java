@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 @Configuration
 public class S3Config {
     S3key key = new S3key();
-    @Value("${cloud.aws.credentials.accessKey}")
+//    @Value("${cloud.aws.credentials.accessKey}")
     public String accessKey = key.accessKey;
-    @Value("${cloud.aws.credentials.secretKey}")
+//    @Value("${cloud.aws.credentials.secretKey}")
     public String secretKey = key.secretKey;
-    @Value("${cloud.aws.region.static}")
+//    @Value("${cloud.aws.region.static}")
     public String region = key.region;
 
     @Bean
