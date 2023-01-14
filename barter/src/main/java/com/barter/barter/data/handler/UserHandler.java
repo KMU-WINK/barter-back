@@ -18,6 +18,6 @@ public class UserHandler {
         return userDAO.saveUser(userEntity);
     }
     public UserEntity getUserEntity(String id){return userDAO.getUser(id);}
-//
-//    public UserEntity
+
+    public void deleteUserEntity(String id){userDAO.deleteUser(id);}
 }
