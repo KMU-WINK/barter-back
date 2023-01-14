@@ -35,7 +35,7 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @OneToMany
+    @OneToMany(mappedBy ="product")
     private List<ProductImageEntity> productImageList;
 
     public void addProductImage(ProductImageEntity productImageEntity) {

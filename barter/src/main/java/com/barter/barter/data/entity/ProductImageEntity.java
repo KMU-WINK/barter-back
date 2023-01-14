@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name = "prdocut_img")
 public class ProductImageEntity {
 
     @Id
@@ -15,7 +16,7 @@ public class ProductImageEntity {
 
     private String src;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 }
