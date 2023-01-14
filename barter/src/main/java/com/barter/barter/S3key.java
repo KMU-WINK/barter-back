@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class S3key {
-//    public String accessKey = "";
-//    public String secretKey ="";
-//    public String bucket = "";
-//    public String region ="";
+    public String accessKey = "";
+    public String secretKey ="";
+    public String bucket = "";
+    public String region ="";
 
 }
