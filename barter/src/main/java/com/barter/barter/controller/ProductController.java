@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -45,10 +46,6 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/search/category")
-    List<ProductResponseDto> searchAllByContainTitle(@RequestParam String title) {
-        return productService.searchProudctByTitle(title);
-    }
 
     @DeleteMapping("/{product_id}")
     boolean deleteProduct(@PathVariable Long product_id) {
