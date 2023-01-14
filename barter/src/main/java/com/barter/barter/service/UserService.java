@@ -38,7 +38,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
     public UserPostDTO postUser(String id, String password, String name, String nickname){
-        UserEntity userEntity = userHandler.postUserEntity(id, name, password, nickname, null);
+        UserEntity userEntity = userHandler.postUserEntity(id, password, name, nickname, null);
         UserPostDTO userPostDTO = new UserPostDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname());
         return userPostDTO;
     }

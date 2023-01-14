@@ -28,7 +28,7 @@ public class UserController {
         String name = userPostDTO.getName();
         String nickname = userPostDTO.getNickname();
         if(userService.getUser(id) == null){
-            return new ResponseEntity<UserPostDTO>(userService.postUser(id, name, password, nickname), HttpStatus.OK);
+            return new ResponseEntity<UserPostDTO>(userService.postUser(id, password, name, nickname), HttpStatus.OK);
         }else{
             return new ResponseEntity<ErrorDTO>(new ErrorDTO("DUPLICATE ID", "이미 있는 계정입니다."), HttpStatus.BAD_REQUEST);
         }
