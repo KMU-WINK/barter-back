@@ -7,6 +7,7 @@ import com.barter.barter.S3key;
 import com.barter.barter.config.S3Config;
 import com.barter.barter.data.dto.UserDTO;
 import com.barter.barter.data.dto.UserLoginDTO;
+import com.barter.barter.data.dto.UserPostDTO;
 import com.barter.barter.data.entity.UserEntity;
 import com.barter.barter.data.handler.UserHandler;
 import com.barter.barter.data.repository.UserRepository;
@@ -36,24 +37,25 @@ public class UserService {
         this.userHandler=userHandler;
         this.userRepository = userRepository;
     }
-    public UserDTO postUser(String id, String password, String name, String nickname, MultipartFile image) throws IOException {
+    public UserPostDTO postUser(String id, String password, String name, String nickname){
+        UserEntity userEntity = userHandler.postUserEntity(id, name, password, nickname, null);
+        UserPostDTO userPostDTO = new UserPostDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname());
+        return userPostDTO;
+    }
+
+    public String updateImage(String id, MultipartFile image) throws IOException {
         S3Config s3Config = new S3Config();
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        if(image != null) {
-            objectMetadata.setContentType(image.getContentType());
-            objectMetadata.setContentLength(image.getSize());
-            s3Config.amazonS3().putObject(new PutObjectRequest(bucketName, id, image.getInputStream(), objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
-            String url = String.valueOf(s3Config.amazonS3().getUrl(bucketName, id));
+        objectMetadata.setContentType(image.getContentType());
+        objectMetadata.setContentLength(image.getSize());
+        s3Config.amazonS3().putObject(new PutObjectRequest(bucketName, id, image.getInputStream(), objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+        String url = String.valueOf(s3Config.amazonS3().getUrl(bucketName, id));
 
-            UserEntity userEntity = userHandler.postUserEntity(id, name, password, nickname, url);
+        UserEntity userEntity = userHandler.getUserEntity(id);
 
-            UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), userEntity.getImg());
-            return userDTO;
-        }else{
-            UserEntity userEntity = userHandler.postUserEntity(id, password, name, nickname, null);
-            UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), null);
-            return userDTO;
-        }
+        userEntity.setImg(url);
+        userRepository.save(userEntity);
+        return url;
     }
 
     public UserDTO getUser(String id){
