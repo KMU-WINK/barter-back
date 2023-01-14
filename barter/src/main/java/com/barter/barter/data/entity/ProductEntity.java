@@ -34,7 +34,6 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     private State state;
 
-
     public ProductResponseDto toDto(){
         return ProductResponseDto.builder()
                 .id(id)
