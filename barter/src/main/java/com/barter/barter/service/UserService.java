@@ -1,6 +1,7 @@
 package com.barter.barter.service;
 
 import com.barter.barter.data.dto.UserDTO;
+import com.barter.barter.data.dto.UserLoginDTO;
 import com.barter.barter.data.entity.UserEntity;
 import com.barter.barter.data.handler.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,8 @@ public class UserService {
         UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname());
         return userDTO;
     }
+
+//    public UserLoginDTO loginUser(String id, String password){
+//        u
+//    }
 }
