@@ -10,6 +10,5 @@ public class S3key {
 //    public String secretKey ="";
 //    public String bucket = "";
 //    public String region ="";
-    
 
 }
