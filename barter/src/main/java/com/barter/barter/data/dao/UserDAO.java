@@ -19,16 +19,8 @@ public class UserDAO {
     }
 
     public UserEntity getUser(String id){
-        try {
-            UserEntity userEntity = userRepository.findById(id).get();
-            return userEntity;
-        }catch (Exception ignored){
-            return null;
-        }
-    }
-
-    public void deleteUser(String id){
-        userRepository.deleteById(id);
+        UserEntity userEntity = userRepository.findById(id).get();
+        return userEntity;
     }
 
 //    public UserLoginDTO loginUser(String id, String password){
