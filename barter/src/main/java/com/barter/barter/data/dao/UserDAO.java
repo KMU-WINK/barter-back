@@ -19,17 +19,15 @@ public class UserDAO {
     }
 
     public UserEntity getUser(String id){
-        UserEntity userEntity = userRepository.findById(id).get();
-        return userEntity;
+        try {
+            UserEntity userEntity = userRepository.findById(id).get();
+            return userEntity;
+        }catch (Exception ignored){
+            return null;
+        }
     }
 
-//    public UserLoginDTO loginUser(String id, String password){
-//        UserEntity userEntity = userRepository.findById(id).get();
-//        if(userEntity.getPassword().equals(password)) {
-//            UserLoginDTO userLoginDTO = new UserLoginDTO(userEntity.getId(), userEntity.getPassword());
-//            return userLoginDTO;
-//        } else {
-//
-//        }
-//    }
+    public void deleteUser(String id){
+        userRepository.deleteById(id);
+    }
 }
