@@ -18,4 +18,5 @@ public class UserEntity {
     String password;
     String name;
     String nickname;
+    String img;
 }
