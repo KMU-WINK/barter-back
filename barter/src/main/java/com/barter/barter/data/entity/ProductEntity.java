@@ -8,6 +8,7 @@ import com.barter.barter.data.dto.product.ProductResponseDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +34,14 @@ public class ProductEntity {
     private AreaCategory areaCategory;
     @Enumerated(EnumType.STRING)
     private State state;
+
+    @OneToMany
+    private List<ProductImageEntity> productImageList;
+
+    public void addProductImage(ProductImageEntity productImageEntity) {
+        productImageList.add(productImageEntity);
+        productImageEntity.setProduct(this);
+    }
 
     public ProductResponseDto toDto(){
         return ProductResponseDto.builder()
