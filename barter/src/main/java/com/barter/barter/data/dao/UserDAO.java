@@ -22,7 +22,7 @@ public class UserDAO {
         try {
             UserEntity userEntity = userRepository.findById(id).get();
             return userEntity;
-        }catch (Exception ignored){
+        }catch (Exception e){
             return null;
         }
     }

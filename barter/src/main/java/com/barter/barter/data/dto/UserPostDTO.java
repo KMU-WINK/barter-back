@@ -7,10 +7,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class UserDTO {
+public class UserPostDTO {
     private String id;
     private String password;
     private String name;
     private String nickname;
-    private String img;
 }

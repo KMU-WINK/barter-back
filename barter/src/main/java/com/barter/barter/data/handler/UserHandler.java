@@ -13,8 +13,8 @@ public class UserHandler {
     @Autowired
     public UserHandler(UserDAO userDAO){this.userDAO=userDAO;}
 
-    public UserEntity postUserEntity(String id, String password, String name, String nickname){
-        UserEntity userEntity = new UserEntity(id, password, name, nickname);
+    public UserEntity postUserEntity(String id, String password, String name, String nickname, String img){
+        UserEntity userEntity = new UserEntity(id, password, name, nickname, img);
         return userDAO.saveUser(userEntity);
     }
     public UserEntity getUserEntity(String id){return userDAO.getUser(id);}
