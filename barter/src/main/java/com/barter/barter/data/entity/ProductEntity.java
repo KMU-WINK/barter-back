@@ -3,12 +3,13 @@ package com.barter.barter.data.entity;
 import com.barter.barter.data.AreaCategory;
 import com.barter.barter.data.ProductCategory;
 import com.barter.barter.data.State;
-import com.barter.barter.data.dto.UserDTO;
+import com.barter.barter.data.dto.user.UserDTO;
 import com.barter.barter.data.dto.product.ProductResponseDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -51,12 +52,8 @@ public class ProductEntity {
                 .productCategory(productCategory)
                 .areaCategory(areaCategory)
                 .state(state)
-                .user(UserDTO.builder()
-                        .id(user.id)
-                        .name(user.name)
-                        .password(user.password)
-                        .nickname(user.nickname)
-                        .build())
+                .user(UserDTO.builder().build())
+                .img(productImageList.stream().map(ProductImageEntity::toDto).collect(Collectors.toList()))
                 .build();
 
     }

@@ -3,13 +3,16 @@ package com.barter.barter.data.dto.product;
 import com.barter.barter.data.AreaCategory;
 import com.barter.barter.data.ProductCategory;
 import com.barter.barter.data.State;
-import com.barter.barter.data.dto.UserDTO;
-import com.barter.barter.data.entity.UserEntity;
-import lombok.Builder;
-import lombok.Data;
+import com.barter.barter.data.dto.user.UserDTO;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class ProductResponseDto {
 
     private Long id;
@@ -19,6 +22,8 @@ public class ProductResponseDto {
     private ProductCategory productCategory;
     private AreaCategory areaCategory;
     private State state;
+
+    private List<ProductImageDto> img;
 
     private UserDTO user;
 }

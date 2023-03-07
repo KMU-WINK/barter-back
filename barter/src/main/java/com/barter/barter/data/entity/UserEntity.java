@@ -1,5 +1,6 @@
 package com.barter.barter.data.entity;
 
+import com.barter.barter.data.dto.user.UserDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,10 +14,23 @@ import javax.persistence.*;
 @Table(name = "user")
 public class UserEntity {
     @Id
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    String password;
-    String name;
-    String nickname;
-    String img;
+    private String user_id;
+
+    private String password;
+    private String name;
+    private String nickname;
+    private String img;
+
+    public UserDTO toDto(){
+        return UserDTO.builder()
+                .id(id)
+                .user_id(user_id)
+                .name(name)
+                .nickname(nickname)
+                .img(img)
+                .build();
+    }
 }

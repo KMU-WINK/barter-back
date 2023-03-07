@@ -1,4 +1,4 @@
-package com.barter.barter.data.dto;
+package com.barter.barter.data.dto.user;
 
 import lombok.*;
 
@@ -8,7 +8,9 @@ import lombok.*;
 @ToString
 @Builder
 public class UserDTO {
-    private String id;
+
+    private Long id;
+    private String user_id;
     private String password;
     private String name;
     private String nickname;

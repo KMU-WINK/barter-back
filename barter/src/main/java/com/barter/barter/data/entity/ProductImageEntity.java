@@ -1,13 +1,18 @@
 package com.barter.barter.data.entity;
 
 
-import lombok.Data;
+import com.barter.barter.data.dto.product.ProductImageDto;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
-@Table(name = "prdocut_img")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
+@Table(name = "product_img")
 public class ProductImageEntity {
 
     @Id
@@ -19,4 +24,11 @@ public class ProductImageEntity {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+
+    public ProductImageDto toDto(){
+        return ProductImageDto.builder()
+                .id(id)
+                .src(src)
+                .build();
+    }
 }

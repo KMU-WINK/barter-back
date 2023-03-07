@@ -1,4 +1,4 @@
-package com.barter.barter.data.dto;
+package com.barter.barter.data.dto.user;
 
 import lombok.*;
 

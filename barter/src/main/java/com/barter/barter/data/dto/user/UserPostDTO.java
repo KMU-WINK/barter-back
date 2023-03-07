@@ -1,4 +1,4 @@
-package com.barter.barter.data.dto;
+package com.barter.barter.data.dto.user;
 
 import lombok.*;
 
@@ -12,4 +12,5 @@ public class UserPostDTO {
     private String password;
     private String name;
     private String nickname;
+    private String img;
 }

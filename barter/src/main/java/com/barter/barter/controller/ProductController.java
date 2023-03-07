@@ -5,6 +5,8 @@ import com.barter.barter.data.dto.product.ProductCreateRequestDto;
 import com.barter.barter.data.dto.product.ProductResponseDto;
 import com.barter.barter.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,13 @@ public class ProductController {
     }
 
     @PostMapping
-    Long createProduct(ProductCreateRequestDto requestDto) {
-        return productService.createProduct(requestDto);
+    ResponseEntity createProduct(ProductCreateRequestDto requestDto) {
+        try{
+            ProductResponseDto responseDto = productService.createProduct(requestDto);
+            return new ResponseEntity<ProductResponseDto>(responseDto, HttpStatus.OK);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/search")

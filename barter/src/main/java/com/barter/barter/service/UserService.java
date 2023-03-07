@@ -1,81 +1,57 @@
 package com.barter.barter.service;
 
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.barter.barter.S3key;
-import com.barter.barter.config.S3Config;
-import com.barter.barter.data.dto.UserDTO;
-import com.barter.barter.data.dto.UserLoginDTO;
-import com.barter.barter.data.dto.UserPostDTO;
+import com.barter.barter.data.dto.user.UserDTO;
 import com.barter.barter.data.entity.UserEntity;
-import com.barter.barter.data.handler.UserHandler;
 import com.barter.barter.data.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 
 @Service
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final UserHandler userHandler;
 
-//    @Value("cloud.aws.s3.bucket")
-    private final String bucketName = (new S3key()).bucket;
 
-    @Autowired
-    public UserService(UserHandler userHandler,
-                       UserRepository userRepository){
-        this.userHandler=userHandler;
-        this.userRepository = userRepository;
-    }
-    public UserPostDTO postUser(String id, String password, String name, String nickname){
-        UserEntity userEntity = userHandler.postUserEntity(id, password, name, nickname, null);
-        UserPostDTO userPostDTO = new UserPostDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname());
-        return userPostDTO;
-    }
-
-    public String updateImage(String id, MultipartFile image) throws IOException {
-        S3Config s3Config = new S3Config();
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(image.getContentType());
-        objectMetadata.setContentLength(image.getSize());
-        s3Config.amazonS3().putObject(new PutObjectRequest(bucketName, id, image.getInputStream(), objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
-        String url = String.valueOf(s3Config.amazonS3().getUrl(bucketName, id));
-
-        UserEntity userEntity = userHandler.getUserEntity(id);
-
-        userEntity.setImg(url);
+    public UserDTO postUser(String id, String password, String name, String nickname, String img){
+        UserEntity userEntity = UserEntity.builder()
+                .user_id(id)
+                .password(password)
+                .name(name)
+                .nickname(nickname)
+                .img(img)
+                .build();
         userRepository.save(userEntity);
-        return url;
+        UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getUser_id(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), userEntity.getImg());
+        return userDTO;
     }
 
     public UserDTO getUser(String id){
-        UserEntity userEntity = userHandler.getUserEntity(id);
+        UserEntity userEntity = userRepository.findByUser_id(id);
         if(userEntity==null){
             return null;
         } else {
-            UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), userEntity.getImg());
+            UserDTO userDTO = new UserDTO(userEntity.getId(), userEntity.getUser_id(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), userEntity.getImg());
             return userDTO;
         }
     }
 
     public void deleteUser(String id){
-        userHandler.deleteUserEntity(id);
+        userRepository.deleteByUser_id(id);
     }
 
-    public void updateUser(String id, String password){
-        UserEntity userEntity = userHandler.getUserEntity(id);
+    public UserDTO updateUser(String id, String password, String nickname, String img){
+        UserEntity userEntity = userRepository.findByUser_id(id);
 
         userEntity.setPassword(password);
+        userEntity.setNickname(nickname);
+        userEntity.setImg(img);
         userRepository.save(userEntity);
+        return new UserDTO(userEntity.getId(), userEntity.getUser_id(), userEntity.getPassword(), userEntity.getName(), userEntity.getNickname(), userEntity.getImg());
     }
 }

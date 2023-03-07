@@ -14,7 +14,7 @@ public interface ProductService {
     ProductResponseDto detailProduct(Long id);
 
     // 물건등록
-    Long createProduct(ProductCreateRequestDto requestDto);
+    ProductResponseDto createProduct(ProductCreateRequestDto requestDto);
 
     // 물건찾기(상품 카테고리)
     List<ProductResponseDto> searchProductByCategory(ProductCategory productCategory);
